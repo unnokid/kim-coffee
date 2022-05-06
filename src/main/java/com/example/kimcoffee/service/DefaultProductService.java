@@ -20,12 +20,6 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public Product createProduct(String productName, Category category, long price) {
-        Product product = new Product(UUID.randomUUID(), productName, category, price);
-        return productJdbcRepository.insert(product);
-    }
-
-    @Override
     public Product createProduct(String productName, Category category, long price, String description) {
         Product product = new Product(UUID.randomUUID(), productName, category, price, description, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS), LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
         return productJdbcRepository.insert(product);
@@ -34,5 +28,15 @@ public class DefaultProductService implements ProductService {
     @Override
     public List<Product> getAllProducts() {
         return productJdbcRepository.findAll();
+    }
+
+    @Override
+    public void deleteProduct(UUID productId) {
+        productJdbcRepository.deleteById(productId);
+    }
+
+    @Override
+    public List<Product> getFindByCategory(Category category) {
+        return productJdbcRepository.findByCategory(category);
     }
 }
