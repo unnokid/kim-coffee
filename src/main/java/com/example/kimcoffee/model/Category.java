@@ -1,4 +1,4 @@
-package com.example.kimcoffe.model;
+package com.example.kimcoffee.model;
 
 public enum Category {
     COFFEE_BEAN_PACKAGE,

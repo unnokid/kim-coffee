@@ -1,4 +1,4 @@
-package com.example.kimcoffe.model;
+package com.example.kimcoffee.model;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
