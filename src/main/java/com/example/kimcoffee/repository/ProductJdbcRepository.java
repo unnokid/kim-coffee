@@ -93,6 +93,14 @@ public class ProductJdbcRepository implements ProductRepository {
         jdbcTemplate.update("delete from products", Collections.emptyMap());
     }
 
+    @Override
+    public void deleteById(UUID productId) {
+        jdbcTemplate.update(
+                "delete from products where product_id = UNHEX(REPLACE(:productId, '-', ''))",
+                Collections.singletonMap("productId", productId.toString().getBytes())
+        );
+    }
+
     private RowMapper<Product> productRowMapper = (resultSet, num) -> {
         UUID productId = toUUID(resultSet.getBytes("product_id"));
         String productName = resultSet.getString("product_name");
