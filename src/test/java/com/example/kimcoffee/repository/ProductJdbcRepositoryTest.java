@@ -99,8 +99,22 @@ class ProductJdbcRepositoryTest {
 
     @Test
     @Order(6)
+    @DisplayName("상품을 아이디로 삭제할 수 있음")
+    void 아이디_상품_삭제() {
+        Product cake = new Product(UUID.randomUUID(), "orangeCake", Category.CAKE, 3000L);
+        productRepository.insert(cake);
+        Optional<Product> findCake = productRepository.findById(cake.getProductId());
+        assertThat(findCake.isEmpty() , is(false));
+
+        productRepository.deleteById(findCake.get().getProductId());
+        findCake = productRepository.findById(cake.getProductId());
+        assertThat(findCake.isEmpty() , is(true));
+    }
+
+    @Test
+    @Order(7)
     @DisplayName("상품전체를 삭제할 수 있음")
-    void 상품_삭제() {
+    void 전체_상품_삭제() {
         productRepository.deleteAll();
         List<Product> products = productRepository.findAll();
         assertThat(products.isEmpty(), is(true));
