@@ -2,7 +2,7 @@ package com.example.kimcoffee.repository;
 
 import com.example.kimcoffee.model.Category;
 import com.example.kimcoffee.model.Product;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -24,7 +24,7 @@ public class ProductJdbcRepository implements ProductRepository {
 
     @Override
     public Product insert(Product product) {
-        var update = jdbcTemplate.update("insert into products(product_id,product_name,category,price,description,create_at,update_at)" +
+        int update = jdbcTemplate.update("insert into products(product_id,product_name,category,price,description,create_at,update_at)" +
                 "values(UNHEX(REPLACE(:productId, '-', '')), :productName, :category, :price, :description, :createAt,:updateAt)", toParamMap(product));
         if (update != 1) {
             throw new RuntimeException("Failed insert");
@@ -34,7 +34,16 @@ public class ProductJdbcRepository implements ProductRepository {
 
     @Override
     public Product update(Product product) {
-        return null;
+        int update = jdbcTemplate.update(
+                "update products set product_name=:productName, category=:category, price=:price," +
+                        "description=:description, create_at=:createAt, update_at=:updateAt " +
+                        "where product_id = UNHEX(REPLACE(:productId, '-', ''))",
+                toParamMap(product)
+        );
+        if (update != 1) {
+            throw new RuntimeException("Failed update");
+        }
+        return product;
     }
 
     @Override
@@ -44,22 +53,44 @@ public class ProductJdbcRepository implements ProductRepository {
 
     @Override
     public Optional<Product> findById(UUID productId) {
-        return Optional.empty();
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject(
+                            "select * from products where product_id = UNHEX(REPLACE(:productId, '-', ''))",
+                            Collections.singletonMap("productId", productId.toString().getBytes()),
+                            productRowMapper
+                    ));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<Product> findByName(String productName) {
-        return Optional.empty();
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject(
+                            "select * from products where product_name = :productName",
+                            Collections.singletonMap("productName", productName),
+                            productRowMapper
+                    ));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public List<Product> findByCategory(Category category) {
-        return null;
+        return jdbcTemplate.query(
+                "select * from products where category = :category",
+                Collections.singletonMap("category", category.toString()),
+                productRowMapper
+        );
     }
 
     @Override
     public void deleteAll() {
-
+        jdbcTemplate.update("delete from products", Collections.emptyMap());
     }
 
     private RowMapper<Product> productRowMapper = (resultSet, num) -> {
@@ -74,8 +105,8 @@ public class ProductJdbcRepository implements ProductRepository {
         return new Product(productId, productName, category, price, description, createAt, updateAt);
     };
 
-    private Map<String, Object> toParamMap(Product product){
-        Map<String,Object> paramMap = new HashMap<>();
+    private Map<String, Object> toParamMap(Product product) {
+        Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("productId", product.getProductId().toString().getBytes());
         paramMap.put("productName", product.getProductName());
         paramMap.put("category", product.getCategory().toString());
@@ -85,5 +116,4 @@ public class ProductJdbcRepository implements ProductRepository {
         paramMap.put("updateAt", product.getUpdateAt());
         return paramMap;
     }
-
 }
