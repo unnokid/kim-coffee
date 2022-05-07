@@ -25,16 +25,8 @@ public class Order {
         this.orderItems = orderItems;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
-    }
-
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
+    public LocalDateTime getUpdateAt() {
+        return updateAt;
     }
 
     public UUID getOrderId() {
@@ -61,11 +53,21 @@ public class Order {
         return createAt;
     }
 
-    public LocalDateTime getUpdateAt() {
-        return updateAt;
-    }
-
     public List<OrderItem> getOrderItems() {
         return orderItems;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", email=" + email +
+                ", address='" + address + '\'' +
+                ", postcode='" + postcode + '\'' +
+                ", orderStatus=" + orderStatus +
+                ", createAt=" + createAt +
+                ", updateAt=" + updateAt +
+                ", orderItems=" + orderItems +
+                '}';
     }
 }
