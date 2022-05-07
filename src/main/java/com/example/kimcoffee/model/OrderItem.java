@@ -6,13 +6,13 @@ public class OrderItem {
     private final UUID productId;
     private final Category category;
     private final long price;
-    private final int count;
+    private final long quantity;
 
-    public OrderItem(UUID productId, Category category, long price, int count) {
+    public OrderItem(UUID productId, Category category, long price, long quantity) {
         this.productId = productId;
         this.category = category;
         this.price = price;
-        this.count = count;
+        this.quantity = quantity;
     }
 
     public UUID getProductId() {
@@ -27,7 +27,7 @@ public class OrderItem {
         return price;
     }
 
-    public int getCount() {
-        return count;
+    public long getQuantity() {
+        return quantity;
     }
 }
