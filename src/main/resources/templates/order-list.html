@@ -26,6 +26,7 @@
     <th scope="col">OrderStatus</th>
     <th scope="col">CreateAt</th>
     <th scope="col">UpdateAt</th>
+    <th scope="col">Detail</th>
   </tr>
   </thead>
   <tbody>
@@ -37,6 +38,10 @@
     <td th:text="*{orderStatus}"></td>
     <td th:text="*{createAt}"></td>
     <td th:text="*{updateAt}"></td>
+    <td><form th:action="@{/orderItems}" method="post">
+      <input type="hidden" th:value="*{orderId}" th:name="orderId" class="form-control">
+      <button type="submit" class="btn btn-primary">Detail</button>
+    </form></td>
   </tr>
   </tbody>
 </table>
