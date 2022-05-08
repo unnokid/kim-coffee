@@ -7,13 +7,13 @@ import java.util.regex.Pattern;
 
 public class Email {
     //이메일에 대한 포맷
-    private final String address;
+    private final String email;
 
-    public Email(String address) {
-        Assert.notNull(address, "이메일은 null 이면 안됩니다.");
-        Assert.isTrue(address.length() >= 4 && address.length() <= 50, "이메일의 길이는 4~50로 입력해주세요.");
-        Assert.isTrue(checkAddress(address), "이메일의 형식에 맞게 입력해주세요.");
-        this.address = address;
+    public Email(String email) {
+        Assert.notNull(email, "이메일은 null 이면 안됩니다.");
+        Assert.isTrue(email.length() >= 4 && email.length() <= 50, "이메일의 길이는 4~50로 입력해주세요.");
+        Assert.isTrue(checkAddress(email), "이메일의 형식에 맞게 입력해주세요.");
+        this.email = email;
     }
 
     //https://regexr.com/ 정규표현식 참고사이트
@@ -26,22 +26,20 @@ public class Email {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Email email = (Email) o;
-        return Objects.equals(address, email.address);
+        return Objects.equals(this.email, email.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(address);
+        return Objects.hash(email);
     }
 
     @Override
     public String toString() {
-        return "Email{" +
-                "address='" + address + '\'' +
-                '}';
+        return email;
     }
 
-    public String getAddress() {
-        return address;
+    public String getEmail() {
+        return email;
     }
 }
