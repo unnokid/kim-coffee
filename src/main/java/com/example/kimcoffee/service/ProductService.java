@@ -4,6 +4,7 @@ import com.example.kimcoffee.model.Category;
 import com.example.kimcoffee.model.Product;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface ProductService {
@@ -11,4 +12,5 @@ public interface ProductService {
     List<Product> getAllProducts();
     void deleteProduct(UUID productId);
     List<Product> getFindByCategory(Category category);
+    Optional<Product> getFindById(UUID productId);
 }

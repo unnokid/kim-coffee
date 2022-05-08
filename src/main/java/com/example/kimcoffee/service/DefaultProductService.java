@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -38,5 +39,10 @@ public class DefaultProductService implements ProductService {
     @Override
     public List<Product> getFindByCategory(Category category) {
         return productJdbcRepository.findByCategory(category);
+    }
+
+    @Override
+    public Optional<Product> getFindById(UUID productId) {
+        return productJdbcRepository.findById(productId);
     }
 }
