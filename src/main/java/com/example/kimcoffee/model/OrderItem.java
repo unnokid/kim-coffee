@@ -3,24 +3,24 @@ package com.example.kimcoffee.model;
 import java.util.UUID;
 
 public class OrderItem {
+    private final UUID orderId;
     private final UUID productId;
-    private final Category category;
     private final long price;
     private final long quantity;
 
-    public OrderItem(UUID productId, Category category, long price, long quantity) {
+    public OrderItem(UUID orderId, UUID productId, long price, long quantity) {
+        this.orderId = orderId;
         this.productId = productId;
-        this.category = category;
         this.price = price;
         this.quantity = quantity;
     }
 
-    public UUID getProductId() {
-        return productId;
+    public UUID getOrderId() {
+        return orderId;
     }
 
-    public Category getCategory() {
-        return category;
+    public UUID getProductId() {
+        return productId;
     }
 
     public long getPrice() {
@@ -29,5 +29,15 @@ public class OrderItem {
 
     public long getQuantity() {
         return quantity;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "orderId=" + orderId +
+                ", productId=" + productId +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                '}';
     }
 }

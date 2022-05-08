@@ -1,7 +1,6 @@
 package com.example.kimcoffee.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 public class Order {
@@ -12,9 +11,8 @@ public class Order {
     private OrderStatus orderStatus;
     private final LocalDateTime createAt;
     private LocalDateTime updateAt;
-    private final List<OrderItem> orderItems;
 
-    public Order(UUID orderId, Email email, String address, String postcode, OrderStatus orderStatus, LocalDateTime createAt, LocalDateTime updateAt, List<OrderItem> orderItems) {
+    public Order(UUID orderId, Email email, String address, String postcode, OrderStatus orderStatus, LocalDateTime createAt, LocalDateTime updateAt) {
         this.orderId = orderId;
         this.email = email;
         this.address = address;
@@ -22,7 +20,6 @@ public class Order {
         this.orderStatus = orderStatus;
         this.createAt = createAt;
         this.updateAt = updateAt;
-        this.orderItems = orderItems;
     }
 
     public LocalDateTime getUpdateAt() {
@@ -53,10 +50,6 @@ public class Order {
         return createAt;
     }
 
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
     @Override
     public String toString() {
         return "Order{" +
@@ -67,7 +60,6 @@ public class Order {
                 ", orderStatus=" + orderStatus +
                 ", createAt=" + createAt +
                 ", updateAt=" + updateAt +
-                ", orderItems=" + orderItems +
                 '}';
     }
 }
